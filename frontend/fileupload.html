@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Upload</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    .upload-box {
+      padding: 20px;
+      border: 2px dashed #888;
+      width: 300px;
+      text-align: center;
+    }
+    #fileInput {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Upload File</h2>
+
+  <div class="upload-box">
+    <p>Select a file to upload</p>
+    <button onclick="openFileDialog()">📎 Attach File</button>
+    <input type="file" id="fileInput" onchange="uploadFile(event)">
+    <input id="messageInput" type="text" placeholder="Type a message..." />
+  </div>
+
+  <p id="result"></p>
+
+  <script>
+    function openFileDialog() {
+      document.getElementById("fileInput").click();
+    }
+
+    async function uploadFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const res = await fetch("http://127.0.0.1:8000/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        document.getElementById("result").innerHTML =
+          "Uploaded Successfully: <a href='" +
+          data.url +
+          "' target='_blank'>" +
+          data.url +
+          "</a>";
+
+      } catch (err) {
+        document.getElementById("result").innerText =
+          "Upload failed: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
