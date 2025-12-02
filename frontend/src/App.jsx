@@ -5,7 +5,7 @@ import { Chats } from './pages/Chats';
 import { Ideas } from './pages/Ideas';
 import { Calendar } from './pages/Calendar';
 import { authAPI, workspaceAPI } from './services/api';
-
+import { Profile } from './pages/Profile';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -75,6 +75,12 @@ function App() {
           element={isAuthenticated ? <Calendar /> : <Navigate to="/login" />}
         />
         <Route path="/" element={<Navigate to="/chats" />} />
+         <Route
+          path="/profile"
+          element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
+        />
+        <Route path="/" element={<Navigate to="/chats" />} />
+      
       </Routes>
     </BrowserRouter>
   );
