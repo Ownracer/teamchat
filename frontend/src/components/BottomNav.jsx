@@ -6,9 +6,12 @@ export const BottomNav = () => {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+  
+  // ✅ Get user data from localStorage
+  const userName = localStorage.getItem('userName') || 'User';
+  const userInitial = userName.charAt(0).toUpperCase();
 
   return (
-    // 👇 removed `md:hidden`, made it fixed at bottom with z-index
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t flex items-center justify-around py-2 z-30">
       <button
         onClick={() => navigate('/chats')}
@@ -67,14 +70,14 @@ export const BottomNav = () => {
           isActive('/profile') ? 'text-gray-900' : 'text-gray-500'
         }`}
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-          />
-        </svg>
+        {/* ✅ Show user initial instead of generic icon */}
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${
+          isActive('/profile') 
+            ? 'bg-gray-900 text-white' 
+            : 'bg-gray-300 text-gray-600'
+        }`}>
+          {userInitial}
+        </div>
         <span className="text-xs mt-1">Profile</span>
       </button>
     </div>
