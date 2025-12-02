@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from typing import Dict, List
-
+import os
 from .routes import router
 from .websocket import router as websocket_router
 from .database import engine, Base
@@ -19,18 +19,31 @@ except ImportError:
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
+PRODUCTION_ORIGIN = os.environ.get("CORS_ORIGINS", "")
+
+# 2. Define local origins
+LOCAL_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173", # Good to include 127.0.0.1 as a fallback
+]
+
+# 3. Combine both lists, ensuring the production origin is included
+#    Filtering removes any empty strings if the variable wasn't set.
+ALLOWED_HOSTS = [host for host in (LOCAL_ORIGINS + [PRODUCTION_ORIGIN]) if host] 
+
+app = FastAPI()
 
 app = FastAPI(title="TeamChat API", version="2.0.0")
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=ALLOWED_HOSTS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # ============ FILE UPLOAD SETUP ============
 
 # Set up uploads directory
