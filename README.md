@@ -1,4 +1,4 @@
-# TeamChat MVP - WhatsApp/Telegram Style with AI Integration
+# TeamChat - WhatsApp/Telegram Style with AI Integration
 
 A modern team chat application with WhatsApp/Telegram-inspired UI, AI-powered idea detection, and smart calendar integration.
 
@@ -35,7 +35,7 @@ A modern team chat application with WhatsApp/Telegram-inspired UI, AI-powered id
 ## 📁 Project Structure
 
 ```
-teamchat-mvp/
+teamchat/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py
@@ -73,7 +73,7 @@ teamchat-mvp/
 
 ```bash
 # Clone the repository
-cd teamchat-mvp
+cd teamchat
 
 # Start all services
 docker-compose up --build

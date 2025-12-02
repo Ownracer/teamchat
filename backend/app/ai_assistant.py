@@ -79,7 +79,7 @@ class AIAssistant:
         hashtags = re.findall(r'#(\w+)', content)
         result['tags'] = hashtags if hashtags else [result['category']] if result['category'] else []
         
-        # Generate summary (first 1000 chars for MVP)
+        # Generate summary (first 1000 chars )
         result['summary'] = content[:1000] + '...' if len(content) > 1000 else content
         
         # Calculate score based on various factors
